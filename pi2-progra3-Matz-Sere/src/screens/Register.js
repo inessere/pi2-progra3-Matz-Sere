@@ -38,7 +38,6 @@ export default class Register extends Component {
         }
       } )
       .catch(error => {
-        // Manejo de errores
         this.setState({ error: 'Hubo un error al registrarse. Verifique los datos ingresados.' })
     })
     } else {
