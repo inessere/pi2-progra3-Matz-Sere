@@ -8,7 +8,7 @@ export default class Profile extends Component {
     this.state = {
       userInfo: null,
       userPosts: [],
-      error:""
+      error: ""
     };
   }
 
@@ -27,7 +27,7 @@ export default class Profile extends Component {
         this.setState({ userInfo: userData });
       });
 
-    
+
     db.collection("posts")
       .where("owner", "==", auth.currentUser.email)
       .onSnapshot(docs => {
@@ -51,33 +51,27 @@ export default class Profile extends Component {
       })
       .catch(error => {
         this.setState({ error: 'Hubo un error' })
-    })
+      })
   }
 
   logout() {
     auth.signOut()
       .then(() => {
-        this.props.navigation.navigate("login");
+        this.props.navigation.navigate("home");
       })
       .catch(error => {
         this.setState({ error: 'Hubo un error' })
-    })
+      })
   }
 
-  irAPrincipal() {
-    this.props.navigation.navigate('principal')
-  }
 
   render() {
     return (
-        
+
       <View style={styles.container}>
 
-        <TouchableOpacity onPress={() => this.irAPrincipal()} style={styles.button}>
-          <Text style={styles.buttonText}>Volver a la pagina principal</Text>
-        </TouchableOpacity>
-        
-        <Text style={styles.title}>Perfil del Usuario</Text>
+
+        <Text style={styles.title}>Perfil del usuario 👤</Text>
 
         {
           this.state.userInfo ? (
@@ -87,19 +81,19 @@ export default class Profile extends Component {
               <Text style={styles.info}>Cantidad de posteos: {this.state.userPosts.length}</Text>
             </View>
           ) : ""
-        
+
         }
 
         <Text style={styles.subtitle}>Posteos del usuario:</Text>
         {
-          this.state.userPosts.length > 0 ? 
+          this.state.userPosts.length > 0 ?
             <FlatList
               data={this.state.userPosts}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) =>
                 <View style={styles.post}>
                   <Text style={styles.postText}>{item.data.mensaje}</Text>
-                  
+
                   <TouchableOpacity
                     style={styles.deleteButton}
                     onPress={() => this.deletePost(item.id)}
@@ -109,9 +103,9 @@ export default class Profile extends Component {
                 </View>
               }
             />
-           : 
+            :
             <Text>No hay posteos del usuario.</Text>
-          
+
         }
 
         <TouchableOpacity style={styles.logoutButton} onPress={() => this.logout()}>
@@ -126,48 +120,67 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#ECE2D0',
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#5C3D2E',
+    textAlign: 'center',
+    fontFamily: 'Georgia',
   },
   info: {
     fontSize: 16,
+    color: '#5C3D2E',
     marginBottom: 10,
+    fontFamily: 'Georgia',
   },
   subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
+    color: '#5C3D2E',
+    fontFamily: 'Georgia',
   },
   post: {
     marginBottom: 15,
     padding: 15,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#F5ECE0',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#C7B299',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
   },
   postText: {
     fontSize: 16,
+    color: '#5C3D2E',
     marginBottom: 10,
+    fontFamily: 'Georgia',
   },
   deleteButton: {
     padding: 10,
-    backgroundColor: '#f44336',
+    backgroundColor: '#D89E8C',
     borderRadius: 5,
     alignItems: 'center',
   },
   deleteButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 14,
+    fontFamily: 'Arial',
   },
   logoutButton: {
     padding: 15,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#A67D68',
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 20,
@@ -176,17 +189,23 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: 'Arial',
   },
   button: {
-    backgroundColor: '#2196F3',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
-    alignItems: 'center'
+    backgroundColor: '#A67D68',
+    paddingVertical: 10,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginBottom: 15,
+    width: '60%',
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
   }
 });
+
+

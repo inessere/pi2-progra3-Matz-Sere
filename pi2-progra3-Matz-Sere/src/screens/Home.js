@@ -1,23 +1,27 @@
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
-import Register from "../screens/Register"
-import Login from "../screens/Login"
+import { auth } from '../firebase/config'
+
 
 export default class Home extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
     }
 
-    componentDidMount(){
-        console.log('props de la screen', this.props)
-    } 
+    componentDidMount() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                this.props.navigation.navigate('anidada');
+            }
+        });
+    }
 
-    irARegister(){
+    irARegister() {
         this.props.navigation.navigate('register')
     }
 
-    irALogin(){
+    irALogin() {
         this.props.navigation.navigate('login')
     }
 
@@ -38,7 +42,7 @@ export default class Home extends Component {
                 >
                     <Text style={styles.buttonText}>Ir al login</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                     style={[styles.button, styles.registerButton]}
                     onPress={() => this.irARegister()}
@@ -56,42 +60,47 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: '#f9f9f9'
+        backgroundColor: '#FAF3E0',
     },
     header: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
         marginBottom: 15,
         textAlign: 'center',
-        color: '#333'
+        color: '#5C3D2E', 
+        fontFamily: 'Arial', 
     },
     description: {
         fontSize: 16,
         marginBottom: 10,
         textAlign: 'center',
-        color: '#555'
+        color: '#6F4E37', 
+        fontFamily: 'Arial',
     },
     info: {
         fontSize: 14,
         marginBottom: 20,
         textAlign: 'center',
-        color: '#777'
+        color: '#8B5A2B', 
+        fontFamily: 'Arial',
     },
     button: {
-        backgroundColor: '#4CAF50',
-        paddingVertical: 12,
-        paddingHorizontal: 30,
-        borderRadius: 5,
+        backgroundColor: '#A5D6A7', 
+        paddingVertical: 8, 
+        paddingHorizontal: 25,
+        borderRadius: 20, 
         marginBottom: 10,
         alignItems: 'center',
-        width: '80%',
+        width: '70%',
+        elevation: 3, 
     },
     registerButton: {
-        backgroundColor: '#2196F3'
+        backgroundColor: '#FFAB91', 
     },
     buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold'
-    }
+        color: '#FFFFFF',
+        fontSize: 14, 
+        fontWeight: '600',
+        fontFamily: 'Arial',
+    },
 });

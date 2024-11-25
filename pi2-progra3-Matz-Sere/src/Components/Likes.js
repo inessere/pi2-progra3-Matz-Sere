@@ -7,43 +7,34 @@ export default class Likes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      likes:0,
+      likes: 0,
       meGusta: false
     };
   }
 
-  // componentDidMount() {
-  //   this.comprobarMeGusta(this.props.item.id);
-  // } 
-  // comprobarMeGusta(id) {
-  //   db.collection("posts").doc(id).get()
-  //     .then((doc) => {
-  //       if (doc.exists) {
-  //         const data = doc.data();
-  //         // Verificamos si el email del usuario está en el array de "likes"
-  //         if (data.arrMeGusta && data.arrMeGusta.includes(auth.currentUser.email)) {
-  //           this.setState({
-  //             meGusta: true,
-  //             likes: data.arrMeGusta.length
-  //           });
-  //         } else {
-  //           this.setState({
-  //             meGusta: false,
-  //             likes: data.arrMeGusta ? data.arrMeGusta.length : 0
-  //           });
-  //         }
-  //       }
-  //     });
-  // }
+  componentDidMount() {
+
+
+    const estaMiLike = this.props.item.data.arrMeGusta.includes(auth.currentUser.email)
+    if (estaMiLike) {
+      this.setState({
+        meGusta: true
+      })
+    }
+
+
+
+  }
 
   actualizarMeGusta(idDocumento) {
     db.collection("posts").doc(idDocumento).update({
       arrMeGusta: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email),
     })
       .then(() => {
-        this.setState({ meGusta: true,
-          likes:this.state.likes + 1
-         });
+        this.setState({
+          meGusta: true,
+          likes: this.state.likes + 1
+        });
       });
   }
 
@@ -52,9 +43,10 @@ export default class Likes extends Component {
       arrMeGusta: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email),
     })
       .then(() => {
-        this.setState({ meGusta: false,
-          likes:this.state.likes - 1
-         });
+        this.setState({
+          meGusta: false,
+          likes: this.state.likes - 1
+        });
       });
   }
 
@@ -63,9 +55,9 @@ export default class Likes extends Component {
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("profile")}>
-          <Text style={styles.ownerText}>{this.props.item.data.owner}</Text>
-        </TouchableOpacity>
+
+        <Text style={styles.ownerText}>{this.props.item.data.owner}</Text>
+
 
         <Text style={styles.messageText}>{this.props.item.data.mensaje}</Text>
         <h6> Cantidad de likes:
