@@ -1,6 +1,6 @@
 import { Text, View, FlatList, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
-import Likes from '../components/Likes'
+import Likes from '../Components/Likes'
 import { db } from "../firebase/config"
 
 export default class Principal extends Component {
